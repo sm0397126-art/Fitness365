@@ -1,5 +1,8 @@
+import { useState, FormEvent } from 'react';
 import { motion } from 'motion/react';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from 'lucide-react';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -9,6 +12,35 @@ const fadeIn = {
 };
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    goal: 'trial',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await addDoc(collection(db, 'inquiries'), {
+        ...formData,
+        status: 'pending',
+        createdAt: serverTimestamp()
+      });
+      setIsSubmitted(true);
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', goal: 'trial', message: '' });
+    } catch (err) {
+      handleFirestoreError(err, OperationType.CREATE, 'inquiries');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="pt-24 pb-16 bg-dark min-h-screen">
       {/* Hero Section */}
@@ -114,49 +146,114 @@ export default function Contact() {
               <h2 className="text-4xl font-display font-bold text-white mb-4 uppercase tracking-tighter">Send Message</h2>
               <p className="text-gray-500 text-sm font-light mb-12 leading-relaxed">Fill out the form below and our team will get back to you within 24 hours.</p>
 
-              <form className="space-y-8 relative z-10" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                    <label htmlFor="firstName" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">First Name</label>
-                    <input type="text" id="firstName" className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors text-sm font-light tracking-widest" placeholder="JOHN" required />
+              {isSubmitted ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-darker p-12 border border-primary/20 text-center space-y-6"
+                >
+                  <CheckCircle2 className="mx-auto text-primary" size={48} />
+                  <h3 className="text-2xl font-display font-bold text-white uppercase tracking-tighter">Message Sent</h3>
+                  <p className="text-gray-400 text-sm font-light tracking-widest leading-relaxed">Thank you for reaching out. Our team will contact you shortly to help you start your journey.</p>
+                  <button 
+                    onClick={() => setIsSubmitted(false)}
+                    className="text-primary font-bold text-[10px] uppercase tracking-ultra hover:underline"
+                  >
+                    Send another message
+                  </button>
+                </motion.div>
+              ) : (
+                <form className="space-y-8 relative z-10" onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label htmlFor="firstName" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">First Name</label>
+                      <input 
+                        type="text" 
+                        id="firstName" 
+                        value={formData.firstName}
+                        onChange={e => setFormData({...formData, firstName: e.target.value})}
+                        className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors text-sm font-light tracking-widest" 
+                        placeholder="JOHN" 
+                        required 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="lastName" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Last Name</label>
+                      <input 
+                        type="text" 
+                        id="lastName" 
+                        value={formData.lastName}
+                        onChange={e => setFormData({...formData, lastName: e.target.value})}
+                        className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors text-sm font-light tracking-widest" 
+                        placeholder="DOE" 
+                        required 
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <label htmlFor="lastName" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Last Name</label>
-                    <input type="text" id="lastName" className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors text-sm font-light tracking-widest" placeholder="DOE" required />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label htmlFor="email" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Email Address</label>
+                      <input 
+                        type="email" 
+                        id="email" 
+                        value={formData.email}
+                        onChange={e => setFormData({...formData, email: e.target.value})}
+                        className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors text-sm font-light tracking-widest" 
+                        placeholder="HELLO@EXAMPLE.COM" 
+                        required 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="phone" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Phone Number</label>
+                      <input 
+                        type="tel" 
+                        id="phone" 
+                        value={formData.phone}
+                        onChange={e => setFormData({...formData, phone: e.target.value})}
+                        className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors text-sm font-light tracking-widest" 
+                        placeholder="+91 00000 00000" 
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <label htmlFor="email" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Email Address</label>
-                    <input type="email" id="email" className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors text-sm font-light tracking-widest" placeholder="HELLO@EXAMPLE.COM" required />
+                    <label htmlFor="goal" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Primary Goal</label>
+                    <select 
+                      id="goal" 
+                      value={formData.goal}
+                      onChange={e => setFormData({...formData, goal: e.target.value})}
+                      className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors appearance-none text-sm font-light tracking-widest uppercase"
+                    >
+                      <option value="trial">Start Free Trial</option>
+                      <option value="weight-loss">Weight Loss</option>
+                      <option value="muscle-gain">Muscle Gain</option>
+                      <option value="personal-training">Personal Training</option>
+                      <option value="general">General Inquiry</option>
+                    </select>
                   </div>
+
                   <div className="space-y-2">
-                    <label htmlFor="phone" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Phone Number</label>
-                    <input type="tel" id="phone" className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors text-sm font-light tracking-widest" placeholder="+91 00000 00000" />
+                    <label htmlFor="message" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Message</label>
+                    <textarea 
+                      id="message" 
+                      rows={4} 
+                      value={formData.message}
+                      onChange={e => setFormData({...formData, message: e.target.value})}
+                      className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors resize-none text-sm font-light tracking-widest" 
+                      placeholder="HOW CAN WE HELP YOU?"
+                    ></textarea>
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="goal" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Primary Goal</label>
-                  <select id="goal" className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors appearance-none text-sm font-light tracking-widest uppercase">
-                    <option value="trial">Start Free Trial</option>
-                    <option value="weight-loss">Weight Loss</option>
-                    <option value="muscle-gain">Muscle Gain</option>
-                    <option value="personal-training">Personal Training</option>
-                    <option value="general">General Inquiry</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-[10px] font-bold text-gray-500 uppercase tracking-ultra">Message</label>
-                  <textarea id="message" rows={4} className="w-full bg-darker border-b border-white/10 px-0 py-4 text-white focus:outline-none focus:border-primary transition-colors resize-none text-sm font-light tracking-widest" placeholder="HOW CAN WE HELP YOU?"></textarea>
-                </div>
-
-                <button type="submit" className="w-full bg-primary text-white font-display font-bold uppercase tracking-ultra text-xs py-6 rounded-sm transition-all transform hover:translate-y-[-4px] active:translate-y-0 shadow-[0_20px_40px_rgba(230,57,70,0.2)] flex items-center justify-center gap-3">
-                  Send Message <Send size={16} />
-                </button>
-              </form>
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full bg-primary text-white font-display font-bold uppercase tracking-ultra text-xs py-6 rounded-sm transition-all transform hover:translate-y-[-4px] active:translate-y-0 shadow-[0_20px_40px_rgba(230,57,70,0.2)] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Message'} <Send size={16} />
+                  </button>
+                </form>
+              )}
             </motion.div>
           </div>
         </div>

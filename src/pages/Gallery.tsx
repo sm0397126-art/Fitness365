@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X } from 'lucide-react';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { collection, onSnapshot, query } from 'firebase/firestore';
+import { ImageIcon } from 'lucide-react';
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -9,22 +11,29 @@ const fadeIn = {
   transition: { duration: 0.6 }
 };
 
+const categories = ['all', 'facility', 'equipment', 'classes', 'transformations'];
+
 export default function Gallery() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [filter, setFilter] = useState('all');
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [images, setImages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const images = [
-    { id: 1, category: 'facility', src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop', alt: 'Gym Interior' },
-    { id: 2, category: 'equipment', src: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop', alt: 'Weights' },
-    { id: 3, category: 'classes', src: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop', alt: 'Personal Training' },
-    { id: 4, category: 'transformations', src: 'https://images.unsplash.com/photo-1609899517235-c32e1f446182?q=80&w=1974&auto=format&fit=crop', alt: 'Transformation 1' },
-    { id: 5, category: 'facility', src: 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=2069&auto=format&fit=crop', alt: 'Cardio Area' },
-    { id: 6, category: 'classes', src: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop', alt: 'Group Class' },
-    { id: 7, category: 'equipment', src: 'https://images.unsplash.com/photo-1567598508481-65985588e295?q=80&w=2070&auto=format&fit=crop', alt: 'Machines' },
-    { id: 8, category: 'transformations', src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop', alt: 'Transformation 2' },
-  ];
+  useEffect(() => {
+    const q = query(collection(db, 'gallery'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setImages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    }, (err) => {
+      handleFirestoreError(err, OperationType.LIST, 'gallery');
+      setLoading(false);
+    });
 
-  const filteredImages = filter === 'all' ? images : images.filter(img => img.category === filter);
+    return () => unsubscribe();
+  }, []);
+
+  const filteredImages = activeCategory === 'all' 
+    ? images 
+    : images.filter(img => img.category === activeCategory);
 
   return (
     <div className="pt-24 pb-16 bg-dark min-h-screen">
@@ -36,30 +45,31 @@ export default function Gallery() {
         </div>
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div className="max-w-4xl" {...fadeIn}>
-            <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-6 block">Visual Journey</span>
+            <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-6 block">Our Space</span>
             <h1 className="text-7xl md:text-9xl font-display font-bold text-white mb-8 uppercase leading-[0.8] tracking-tighter">
-              INSIDE THE <br />
-              <span className="serif-italic text-primary lowercase tracking-normal">arena</span>
+              VISUAL <br />
+              <span className="serif-italic text-primary lowercase tracking-normal">experience</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 leading-relaxed font-light max-w-2xl">
-              Explore our state-of-the-art facilities and the transformations that define our community.
+              Take a virtual tour of our world-class facilities, state-of-the-art equipment, and the vibrant community that makes 365Fitness unique.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Gallery Filter */}
-      <section className="py-24 bg-darker border-t border-white/5">
+      {/* Filter & Grid */}
+      <section className="py-32 bg-darker border-t border-white/5">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-wrap justify-center gap-px bg-white/5 border border-white/5 mb-16 max-w-fit mx-auto">
-            {['all', 'facility', 'equipment', 'classes', 'transformations'].map((cat) => (
+          {/* Filters */}
+          <div className="flex flex-wrap justify-center gap-4 mb-20">
+            {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-8 py-4 font-display uppercase tracking-ultra text-[10px] transition-all ${
-                  filter === cat
-                    ? 'bg-primary text-white'
-                    : 'bg-dark text-gray-500 hover:text-white hover:bg-dark-card'
+                onClick={() => setActiveCategory(cat)}
+                className={`px-8 py-3 rounded-sm text-[10px] font-bold uppercase tracking-ultra transition-all border ${
+                  activeCategory === cat 
+                    ? 'bg-primary border-primary text-white' 
+                    : 'bg-transparent border-white/10 text-gray-500 hover:border-white/30 hover:text-white'
                 }`}
               >
                 {cat}
@@ -67,66 +77,46 @@ export default function Gallery() {
             ))}
           </div>
 
-          {/* Image Grid */}
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5">
-            <AnimatePresence mode="popLayout">
-              {filteredImages.map((img) => (
-                <motion.div
-                  key={img.id}
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="aspect-square overflow-hidden cursor-pointer group relative bg-dark"
-                  onClick={() => setSelectedImage(img.src)}
-                >
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
-                  <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
-                    <span className="text-[10px] font-bold text-white uppercase tracking-ultra bg-dark/80 px-3 py-1 backdrop-blur-sm">{img.category}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          {loading ? (
+            <div className="text-center py-20">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+              <p className="text-gray-500 mt-4 uppercase tracking-ultra text-[10px] font-bold">Loading Gallery...</p>
+            </div>
+          ) : images.length === 0 ? (
+            <div className="text-center py-20 border border-dashed border-white/10">
+              <ImageIcon className="mx-auto text-gray-700 mb-4" size={48} />
+              <p className="text-gray-500 uppercase tracking-ultra text-[10px] font-bold">No images found in the gallery.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
+              <AnimatePresence mode="popLayout">
+                {filteredImages.map((image, index) => (
+                  <motion.div
+                    key={image.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                    className="relative aspect-square group overflow-hidden bg-dark"
+                  >
+                    <img 
+                      src={image.src} 
+                      alt={image.alt} 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
+                      <span className="text-primary font-bold text-[10px] uppercase tracking-ultra mb-2">{image.category}</span>
+                      <p className="text-white text-sm font-light tracking-widest uppercase">{image.alt}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
       </section>
-
-      {/* Lightbox */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
-            onClick={() => setSelectedImage(null)}
-          >
-            <button
-              className="absolute top-6 right-6 text-white hover:text-primary transition-colors z-10"
-              onClick={() => setSelectedImage(null)}
-            >
-              <X size={32} />
-            </button>
-            <motion.img
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              src={selectedImage}
-              alt="Enlarged view"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-              referrerPolicy="no-referrer"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
