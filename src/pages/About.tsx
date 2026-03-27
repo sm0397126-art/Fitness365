@@ -12,67 +12,76 @@ export default function About() {
   return (
     <div className="pt-24 pb-16 bg-dark min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-center pt-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=2069&auto=format&fit=crop"
             alt="Gym interior"
-            className="w-full h-full object-cover opacity-20"
+            className="w-full h-full object-cover opacity-20 grayscale"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-dark via-dark/80 to-dark"></div>
+          <div className="absolute inset-0 grid-lines opacity-30"></div>
         </div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div className="max-w-3xl mx-auto text-center" {...fadeIn}>
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-6 uppercase">
-              Our <span className="text-primary">Story</span>
+          <motion.div className="max-w-4xl" {...fadeIn}>
+            <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-6 block">Our Legacy</span>
+            <h1 className="text-7xl md:text-9xl font-display font-bold text-white mb-8 uppercase leading-[0.8] tracking-tighter">
+              OUR <br />
+              <span className="serif-italic text-primary lowercase tracking-normal">story</span>
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              Founded in 2018, 365Fitness was built on a simple premise: fitness should be accessible, effective, and empowering. We're not just a gym; we're a community dedicated to helping you become the best version of yourself, every single day of the year.
+            <p className="text-xl md:text-2xl text-gray-400 leading-relaxed font-light max-w-2xl">
+              Founded in 2018, <span className="text-white font-medium">365Fitness</span> was built on a simple premise: fitness should be accessible, effective, and empowering.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="py-20 bg-darker">
+      {/* Mission & Vision - Split Layout */}
+      <section className="py-32 bg-darker border-y border-white/5 relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl font-display font-bold text-white mb-6 uppercase">
-                Our <span className="text-primary">Mission</span>
+              <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-4 block">The Mission</span>
+              <h2 className="text-6xl md:text-8xl font-display font-bold text-white mb-10 uppercase leading-[0.85] tracking-tighter">
+                Empower <br />
+                <span className="serif-italic text-primary lowercase tracking-normal">every body</span>
               </h2>
-              <p className="text-gray-400 text-lg leading-relaxed mb-6">
-                To provide an unparalleled fitness experience that inspires and empowers individuals to achieve their health and wellness goals. We believe that a strong body builds a strong mind, and our mission is to facilitate that transformation for everyone who walks through our doors.
+              <p className="text-gray-400 text-lg leading-relaxed mb-12 font-light">
+                To provide an unparalleled fitness experience that inspires and empowers individuals to achieve their health and wellness goals. We believe that a strong body builds a strong mind.
               </p>
-              <ul className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 {[
-                  { icon: Target, text: "Goal-oriented programming" },
-                  { icon: Heart, text: "Inclusive and supportive community" },
-                  { icon: Shield, text: "Safe, clean, and premium environment" }
+                  { icon: Target, title: "Precision", text: "Goal-oriented programming" },
+                  { icon: Heart, title: "Community", text: "Inclusive and supportive" },
+                  { icon: Shield, title: "Safety", text: "Premium environment" },
+                  { icon: Award, title: "Results", text: "Data-driven success" }
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-4 text-gray-300">
-                    <div className="bg-primary/20 p-2 rounded-full text-primary">
-                      <item.icon size={20} />
+                  <div key={i} className="flex flex-col gap-4">
+                    <div className="text-primary">
+                      <item.icon size={24} strokeWidth={1.5} />
                     </div>
-                    <span className="font-medium">{item.text}</span>
-                  </li>
+                    <div>
+                      <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-1">{item.title}</h4>
+                      <p className="text-gray-500 text-xs leading-relaxed">{item.text}</p>
+                    </div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 1.1 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative rounded-2xl overflow-hidden aspect-square md:aspect-auto md:h-[500px]"
+              transition={{ duration: 1 }}
+              className="relative aspect-square lg:aspect-[4/5] overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000"
             >
               <img
                 src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop"
@@ -80,25 +89,28 @@ export default function About() {
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+              <div className="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+              <div className="absolute inset-0 border-[20px] border-darker/50 pointer-events-none"></div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Trainers */}
-      <section className="py-24 bg-dark">
+      {/* Trainers - Defined Grid */}
+      <section className="py-32 bg-dark relative grid-lines">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div className="text-center max-w-3xl mx-auto mb-16" {...fadeIn}>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6 uppercase">
-              Meet Our <span className="text-primary">Experts</span>
+          <motion.div className="max-w-3xl mb-20" {...fadeIn}>
+            <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-4 block">The Team</span>
+            <h2 className="text-6xl md:text-8xl font-display font-bold text-white mb-8 uppercase leading-[0.85] tracking-tighter">
+              Expert <br />
+              <span className="serif-italic text-primary lowercase tracking-normal">mentors</span>
             </h2>
-            <p className="text-gray-400 text-lg">
+            <p className="text-gray-400 text-xl font-light leading-relaxed">
               Our certified trainers bring years of experience, passion, and proven methodologies to help you crush your goals.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 border border-white/5">
             {[
               { name: "Marcus Johnson", role: "Head Coach", certs: "NASM-CPT, Precision Nutrition L1", img: "https://images.unsplash.com/photo-1567598508481-65985588e295?q=80&w=2070&auto=format&fit=crop" },
               { name: "Elena Rodriguez", role: "Strength Specialist", certs: "CSCS, USAW L1", img: "https://images.unsplash.com/photo-1609899517235-c32e1f446182?q=80&w=1974&auto=format&fit=crop" },
@@ -106,25 +118,25 @@ export default function About() {
             ].map((trainer, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-dark-card rounded-2xl overflow-hidden border border-white/5 group"
+                transition={{ duration: 0.8, delay: i * 0.2 }}
+                className="bg-dark group overflow-hidden"
               >
-                <div className="aspect-[4/5] overflow-hidden relative">
+                <div className="aspect-[3/4] overflow-hidden relative grayscale group-hover:grayscale-0 transition-all duration-700">
                   <img
                     src={trainer.img}
                     alt={trainer.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80"></div>
-                  <div className="absolute bottom-0 left-0 p-6 w-full">
-                    <h3 className="text-2xl font-display font-bold text-white uppercase mb-1">{trainer.name}</h3>
-                    <p className="text-primary font-medium uppercase tracking-wider text-sm mb-3">{trainer.role}</p>
-                    <div className="flex items-center gap-2 text-gray-300 text-sm">
-                      <Award size={16} className="text-primary" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent opacity-80"></div>
+                  <div className="absolute bottom-0 left-0 p-10 w-full translate-y-4 group-hover:translate-y-0 transition-transform">
+                    <h3 className="text-3xl font-display font-bold text-white uppercase mb-1 tracking-tighter">{trainer.name}</h3>
+                    <p className="text-primary font-bold uppercase tracking-ultra text-[10px] mb-4">{trainer.role}</p>
+                    <div className="flex items-center gap-2 text-gray-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Award size={14} className="text-primary" />
                       <span>{trainer.certs}</span>
                     </div>
                   </div>

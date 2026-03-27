@@ -60,72 +60,77 @@ export default function Programs() {
   return (
     <div className="pt-24 pb-16 bg-dark min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-center pt-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-dark"></div>
+          <div className="absolute inset-0 grid-lines opacity-20"></div>
+        </div>
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div className="max-w-3xl mx-auto text-center" {...fadeIn}>
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-6 uppercase">
-              Our <span className="text-primary">Programs</span>
+          <motion.div className="max-w-4xl" {...fadeIn}>
+            <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-6 block">Our Disciplines</span>
+            <h1 className="text-7xl md:text-9xl font-display font-bold text-white mb-8 uppercase leading-[0.8] tracking-tighter">
+              CHOOSE YOUR <br />
+              <span className="serif-italic text-primary lowercase tracking-normal">path</span>
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              Discover the perfect program tailored to your goals. Whether you want to lose weight, build muscle, or improve your overall health, we have a plan for you.
+            <p className="text-xl md:text-2xl text-gray-400 leading-relaxed font-light max-w-2xl">
+              Discover the perfect program tailored to your goals. Precision-engineered for maximum results.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Programs List */}
-      <section className="py-16 bg-darker">
+      <section className="py-32 bg-darker border-t border-white/5">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="space-y-24">
+          <div className="space-y-40">
             {programs.map((program, index) => (
               <motion.div
                 key={program.id}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-                className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 items-center`}
+                transition={{ duration: 0.8 }}
+                className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-24 items-center`}
               >
                 {/* Image */}
-                <div className="w-full md:w-1/2 relative rounded-2xl overflow-hidden aspect-[4/3] group">
+                <div className="w-full lg:w-1/2 relative overflow-hidden aspect-[4/5] group grayscale hover:grayscale-0 transition-all duration-1000">
                   <img
                     src={program.img}
                     alt={program.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-6 left-6 bg-primary text-white p-3 rounded-xl shadow-lg">
-                    <program.icon size={32} />
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-darker via-transparent to-transparent"></div>
+                  <div className="absolute top-10 left-10 text-white font-display font-bold text-6xl opacity-20 group-hover:opacity-100 transition-opacity">0{index + 1}</div>
                 </div>
 
                 {/* Content */}
-                <div className="w-full md:w-1/2">
-                  <h2 className="text-4xl font-display font-bold text-white mb-4 uppercase">{program.title}</h2>
-                  <p className="text-gray-400 text-lg mb-6 leading-relaxed">{program.desc}</p>
+                <div className="w-full lg:w-1/2">
+                  <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-4 block">Program {program.id.replace('-', ' ')}</span>
+                  <h2 className="text-6xl md:text-7xl font-display font-bold text-white mb-8 uppercase leading-[0.85] tracking-tighter">{program.title}</h2>
+                  <p className="text-gray-400 text-xl mb-10 leading-relaxed font-light">{program.desc}</p>
                   
-                  <div className="grid grid-cols-2 gap-4 mb-8">
-                    <div className="bg-dark-card p-4 rounded-lg border border-white/5">
-                      <p className="text-sm text-gray-500 uppercase tracking-wider mb-1">Target</p>
-                      <p className="text-white font-medium">{program.target}</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/5 border border-white/5 mb-12">
+                    <div className="bg-dark p-6">
+                      <p className="text-[10px] text-gray-500 uppercase tracking-ultra mb-2">Target Audience</p>
+                      <p className="text-white font-bold uppercase text-sm tracking-wider">{program.target}</p>
                     </div>
-                    <div className="bg-dark-card p-4 rounded-lg border border-white/5">
-                      <p className="text-sm text-gray-500 uppercase tracking-wider mb-1">Duration</p>
-                      <p className="text-white font-medium">{program.duration}</p>
+                    <div className="bg-dark p-6">
+                      <p className="text-[10px] text-gray-500 uppercase tracking-ultra mb-2">Duration</p>
+                      <p className="text-white font-bold uppercase text-sm tracking-wider">{program.duration}</p>
                     </div>
-                    <div className="bg-dark-card p-4 rounded-lg border border-white/5 col-span-2">
-                      <p className="text-sm text-gray-500 uppercase tracking-wider mb-1">Expected Results</p>
-                      <p className="text-primary font-medium">{program.results}</p>
+                    <div className="bg-dark p-6 col-span-full">
+                      <p className="text-[10px] text-gray-500 uppercase tracking-ultra mb-2">Expected Results</p>
+                      <p className="text-primary font-bold uppercase text-sm tracking-wider">{program.results}</p>
                     </div>
                   </div>
 
-                  <div className="mb-8">
-                    <h3 className="text-xl font-display font-bold text-white mb-4 uppercase">What's Included</h3>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="mb-12">
+                    <h3 className="text-xs font-bold text-white mb-6 uppercase tracking-ultra">Included Benefits</h3>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {program.benefits.map((benefit, i) => (
-                        <li key={i} className="flex items-start gap-3 text-gray-300">
-                          <CheckCircle2 size={20} className="text-primary shrink-0 mt-0.5" />
+                        <li key={i} className="flex items-center gap-3 text-gray-400 text-sm font-light">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
                           <span>{benefit}</span>
                         </li>
                       ))}
@@ -134,9 +139,9 @@ export default function Programs() {
 
                   <Link
                     to="/contact"
-                    className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-md font-display font-bold uppercase tracking-wider text-lg transition-all transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(230,57,70,0.3)]"
+                    className="inline-flex items-center gap-4 bg-primary hover:bg-primary-hover text-white px-12 py-6 rounded-sm font-display font-bold uppercase tracking-ultra text-xs transition-all transform hover:translate-y-[-4px] active:translate-y-0 shadow-[0_20px_40px_rgba(230,57,70,0.2)] group"
                   >
-                    Start This Program <ArrowRight size={20} />
+                    Enroll Now <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                   </Link>
                 </div>
               </motion.div>

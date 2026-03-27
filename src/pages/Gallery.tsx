@@ -29,31 +29,37 @@ export default function Gallery() {
   return (
     <div className="pt-24 pb-16 bg-dark min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-center pt-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-dark"></div>
+          <div className="absolute inset-0 grid-lines opacity-20"></div>
+        </div>
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div className="max-w-3xl mx-auto text-center" {...fadeIn}>
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-6 uppercase">
-              Our <span className="text-primary">Gallery</span>
+          <motion.div className="max-w-4xl" {...fadeIn}>
+            <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-6 block">Visual Journey</span>
+            <h1 className="text-7xl md:text-9xl font-display font-bold text-white mb-8 uppercase leading-[0.8] tracking-tighter">
+              INSIDE THE <br />
+              <span className="serif-italic text-primary lowercase tracking-normal">arena</span>
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              Take a look inside 365Fitness. Explore our state-of-the-art facilities, premium equipment, and the incredible transformations of our members.
+            <p className="text-xl md:text-2xl text-gray-400 leading-relaxed font-light max-w-2xl">
+              Explore our state-of-the-art facilities and the transformations that define our community.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Gallery Filter */}
-      <section className="py-8 bg-darker">
+      <section className="py-24 bg-darker border-t border-white/5">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div className="flex flex-wrap justify-center gap-px bg-white/5 border border-white/5 mb-16 max-w-fit mx-auto">
             {['all', 'facility', 'equipment', 'classes', 'transformations'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-6 py-2 rounded-full font-display uppercase tracking-wider text-sm transition-all ${
+                className={`px-8 py-4 font-display uppercase tracking-ultra text-[10px] transition-all ${
                   filter === cat
-                    ? 'bg-primary text-white shadow-[0_0_15px_rgba(230,57,70,0.4)]'
-                    : 'bg-dark-card text-gray-400 hover:text-white hover:bg-white/10 border border-white/5'
+                    ? 'bg-primary text-white'
+                    : 'bg-dark text-gray-500 hover:text-white hover:bg-dark-card'
                 }`}
               >
                 {cat}
@@ -62,26 +68,29 @@ export default function Gallery() {
           </div>
 
           {/* Image Grid */}
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <AnimatePresence>
+          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5">
+            <AnimatePresence mode="popLayout">
               {filteredImages.map((img) => (
                 <motion.div
                   key={img.id}
                   layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  className="aspect-square rounded-xl overflow-hidden cursor-pointer group relative"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="aspect-square overflow-hidden cursor-pointer group relative bg-dark"
                   onClick={() => setSelectedImage(img.src)}
                 >
                   <img
                     src={img.src}
                     alt={img.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay"></div>
+                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
+                  <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
+                    <span className="text-[10px] font-bold text-white uppercase tracking-ultra bg-dark/80 px-3 py-1 backdrop-blur-sm">{img.category}</span>
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>

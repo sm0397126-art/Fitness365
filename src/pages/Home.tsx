@@ -18,245 +18,282 @@ export default function Home() {
           <img
             src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop"
             alt="Gym interior with athletes working out"
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-20 grayscale"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/80 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/90 to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]"></div>
         </div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-3xl">
+          <div className="max-w-4xl">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
             >
-              <span className="inline-block py-1 px-3 rounded-full bg-primary/20 text-primary font-bold text-sm uppercase tracking-wider mb-6 border border-primary/30">
-                #1 Rated Gym in the City
-              </span>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white leading-[1.1] mb-6 uppercase">
-                Transform Your <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-red-600">
-                  Body in 90 Days
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="flex items-center gap-3 mb-8"
+              >
+                <div className="h-[1px] w-12 bg-primary"></div>
+                <span className="text-primary font-bold text-xs uppercase tracking-ultra">
+                  The Ultimate Fitness Experience
                 </span>
+              </motion.div>
+
+              <h1 className="text-7xl md:text-9xl lg:text-[12rem] font-display font-bold text-white leading-[0.8] mb-12 uppercase tracking-tighter">
+                <div className="reveal-text">
+                  <motion.div
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: 0.4, duration: 1, ease: [0.33, 1, 0.68, 1] }}
+                  >
+                    TRANSFORM
+                  </motion.div>
+                </div>
+                <div className="reveal-text">
+                  <motion.div
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: 0.6, duration: 1, ease: [0.33, 1, 0.68, 1] }}
+                    className="flex items-center gap-4"
+                  >
+                    YOUR <span className="serif-italic text-primary lowercase tracking-normal">body</span>
+                  </motion.div>
+                </div>
               </h1>
-              <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl leading-relaxed">
-                Join 365Fitness to build strength, lose weight, and unlock your true potential. Premium equipment, expert trainers, and a community that pushes you further.
-              </p>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.8 }}
+                className="text-lg md:text-2xl text-gray-400 mb-12 max-w-xl leading-relaxed font-light"
+              >
+                Join <span className="text-white font-medium">365Fitness</span> to unlock your true potential. Premium equipment, expert trainers, and a community that pushes you further.
+              </motion.p>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2, duration: 0.8 }}
+                className="flex flex-col sm:flex-row gap-6"
+              >
                 <Link
                   to="/contact"
-                  className="bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-md font-display font-bold uppercase tracking-wider text-lg transition-all transform hover:scale-105 active:scale-95 text-center flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(230,57,70,0.4)]"
+                  className="bg-primary hover:bg-primary-hover text-white px-12 py-6 rounded-sm font-display font-bold uppercase tracking-ultra text-xs transition-all transform hover:translate-y-[-4px] active:translate-y-0 text-center flex items-center justify-center gap-3 group shadow-[0_20px_40px_rgba(230,57,70,0.2)]"
                 >
                   Start Free Trial
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   to="/pricing"
-                  className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-md font-display font-bold uppercase tracking-wider text-lg transition-all text-center"
+                  className="bg-transparent border border-white/20 hover:border-white text-white px-12 py-6 rounded-sm font-display font-bold uppercase tracking-ultra text-xs transition-all text-center"
                 >
                   View Plans
                 </Link>
-              </div>
-              
-              <div className="mt-12 flex items-center gap-4 text-sm text-gray-400 font-medium">
-                <div className="flex -space-x-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <img
-                      key={i}
-                      src={`https://i.pravatar.cc/100?img=${i + 10}`}
-                      alt="Member"
-                      className="w-10 h-10 rounded-full border-2 border-dark object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                  ))}
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2, duration: 1 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
+        >
+          <span className="text-[10px] uppercase tracking-ultra text-gray-500 rotate-90 origin-left translate-x-3">Scroll</span>
+          <div className="w-[1px] h-12 bg-gradient-to-b from-primary to-transparent"></div>
+        </motion.div>
+      </section>
+
+      {/* Marquee Section */}
+      <div className="py-12 bg-darker overflow-hidden border-y border-white/5">
+        <div className="flex whitespace-nowrap animate-marquee">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <div key={i} className="flex items-center gap-12 px-6">
+              <span className="text-8xl md:text-[10rem] font-display font-bold text-white/5 uppercase tracking-tighter">365FITNESS</span>
+              <div className="w-4 h-4 rounded-full bg-primary"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Why Choose Us - Refined with Grid */}
+      <section className="py-32 bg-dark relative grid-lines">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            <motion.div className="lg:col-span-5" {...fadeIn}>
+              <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-4 block">Our Philosophy</span>
+              <h2 className="text-6xl md:text-8xl font-display font-bold text-white mb-8 uppercase leading-[0.85] tracking-tighter">
+                Beyond <br />
+                <span className="serif-italic text-primary lowercase tracking-normal">the gym</span>
+              </h2>
+              <p className="text-gray-400 text-lg leading-relaxed mb-10 font-light">
+                We're more than just a gym. We're a comprehensive fitness ecosystem designed to guarantee your success through precision and passion.
+              </p>
+              <div className="grid grid-cols-2 gap-8 border-t border-white/5 pt-10">
+                <div>
+                  <div className="text-4xl font-display font-bold text-white mb-1">24/7</div>
+                  <div className="text-xs uppercase tracking-widest text-gray-500">Access</div>
                 </div>
                 <div>
-                  <div className="flex text-yellow-500 mb-1">
-                    {[1, 2, 3, 4, 5].map((i) => <Star key={i} size={14} fill="currentColor" />)}
-                  </div>
-                  <p>Joined by 2,000+ members</p>
+                  <div className="text-4xl font-display font-bold text-white mb-1">365</div>
+                  <div className="text-xs uppercase tracking-widest text-gray-500">Days</div>
                 </div>
               </div>
             </motion.div>
+
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/5 border border-white/5">
+              {[
+                { icon: Dumbbell, title: "Premium Equipment", desc: "State-of-the-art machines and free weights for every muscle group." },
+                { icon: Users, title: "Expert Trainers", desc: "Certified professionals dedicated to guiding your fitness journey." },
+                { icon: Clock, title: "Smart Access", desc: "Train on your schedule. We're open 365 days a year, round the clock." },
+                { icon: Trophy, title: "Proven Results", desc: "Data-driven programs that guarantee transformation in 90 days." }
+              ].map((feature, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="bg-dark p-10 group hover:bg-dark-card transition-colors"
+                >
+                  <div className="text-primary mb-8 group-hover:scale-110 transition-transform origin-left">
+                    <feature.icon size={32} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-lg font-display font-bold text-white mb-4 uppercase tracking-wider">{feature.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed font-light">{feature.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-24 bg-darker relative">
+      {/* Programs Preview - Editorial Style */}
+      <section className="py-32 bg-dark relative grid-lines">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div className="text-center max-w-3xl mx-auto mb-16" {...fadeIn}>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6 uppercase">
-              Why Choose <span className="text-primary">365Fitness</span>
-            </h2>
-            <p className="text-gray-400 text-lg">
-              We're more than just a gym. We're a comprehensive fitness ecosystem designed to guarantee your success.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { icon: Dumbbell, title: "Premium Equipment", desc: "State-of-the-art machines and free weights for every muscle group." },
-              { icon: Users, title: "Expert Trainers", desc: "Certified professionals dedicated to guiding your fitness journey." },
-              { icon: Clock, title: "24/7 Access", desc: "Train on your schedule. We're open 365 days a year, round the clock." },
-              { icon: Trophy, title: "Proven Results", desc: "Data-driven programs that guarantee transformation in 90 days." }
-            ].map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-dark-card p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-colors group"
-              >
-                <div className="w-14 h-14 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                  <feature.icon size={28} />
-                </div>
-                <h3 className="text-xl font-display font-bold text-white mb-3 uppercase">{feature.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{feature.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Programs Preview */}
-      <section className="py-24 bg-dark relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
-        
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-baseline mb-20 gap-6">
             <motion.div className="max-w-2xl" {...fadeIn}>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6 uppercase">
-                Programs Built <span className="text-primary">For You</span>
+              <h2 className="text-6xl md:text-8xl font-display font-bold text-white mb-4 uppercase leading-[0.85] tracking-tighter">
+                Specialized <br />
+                <span className="serif-italic text-primary lowercase tracking-normal">disciplines</span>
               </h2>
-              <p className="text-gray-400 text-lg">
-                Whether you're looking to shed pounds, build muscle, or improve overall health, we have a specialized program.
-              </p>
             </motion.div>
             <motion.div {...fadeIn}>
-              <Link to="/programs" className="text-primary font-bold uppercase tracking-wider flex items-center gap-2 hover:text-white transition-colors">
-                View All Programs <ArrowRight size={20} />
+              <Link to="/programs" className="group text-white text-[10px] font-bold uppercase tracking-ultra flex items-center gap-3 hover:text-primary transition-colors">
+                Explore All <div className="w-8 h-[1px] bg-white group-hover:bg-primary group-hover:w-12 transition-all"></div>
               </Link>
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
-              { title: "Weight Loss", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop", desc: "High-intensity cardio and tailored nutrition plans to burn fat fast." },
-              { title: "Muscle Gain", image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop", desc: "Hypertrophy-focused lifting programs to build lean muscle mass." },
-              { title: "Personal Training", image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop", desc: "1-on-1 coaching for maximum accountability and personalized programming." }
+              { title: "Weight Loss", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop", num: "01" },
+              { title: "Muscle Gain", image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop", num: "02" },
+              { title: "Personal Training", image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop", num: "03" }
             ].map((program, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative rounded-2xl overflow-hidden aspect-[4/5]"
+                transition={{ duration: 0.8, delay: i * 0.2 }}
+                className="group cursor-pointer"
               >
-                <img src={program.image} alt={program.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-                <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                  <h3 className="text-3xl font-display font-bold text-white mb-3 uppercase transform translate-y-4 group-hover:translate-y-0 transition-transform">{program.title}</h3>
-                  <p className="text-gray-300 mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">{program.desc}</p>
-                  <Link to="/programs" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                    Learn More <ArrowRight size={16} />
-                  </Link>
+                <div className="relative aspect-[3/4] overflow-hidden mb-8 grayscale hover:grayscale-0 transition-all duration-700">
+                  <img src={program.image} alt={program.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
+                  <div className="absolute top-6 left-6 text-white font-display font-bold text-4xl opacity-20 group-hover:opacity-100 transition-opacity">{program.num}</div>
+                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity mix-blend-overlay"></div>
                 </div>
+                <h3 className="text-3xl font-display font-bold text-white mb-2 uppercase tracking-tighter flex items-center justify-between">
+                  {program.title}
+                  <ArrowRight size={24} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
+                </h3>
+                <div className="h-[1px] w-full bg-white/10 group-hover:bg-primary transition-colors"></div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Transformations / Social Proof */}
-      <section className="py-24 bg-darker">
+      {/* Social Proof - Defined Cards */}
+      <section className="py-32 bg-darker border-t border-white/5 relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div className="text-center max-w-3xl mx-auto mb-16" {...fadeIn}>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6 uppercase">
-              Real People. <span className="text-primary">Real Results.</span>
-            </h2>
-            <p className="text-gray-400 text-lg">
-              Don't just take our word for it. See the transformations our members have achieved in just 90 days.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              { name: "Sarah M.", result: "Lost 25 lbs in 3 months", quote: "The trainers here pushed me past my limits. I've never felt stronger or more confident.", img: "https://images.unsplash.com/photo-1609899517235-c32e1f446182?q=80&w=1974&auto=format&fit=crop" },
-              { name: "David K.", result: "Gained 15 lbs of muscle", quote: "The equipment is top-notch and the community is incredibly supportive. Best gym I've ever joined.", img: "https://images.unsplash.com/photo-1567598508481-65985588e295?q=80&w=2070&auto=format&fit=crop" }
-            ].map((testimonial, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="bg-dark-card p-8 rounded-2xl border border-white/5 flex flex-col sm:flex-row gap-6 items-center"
-              >
-                <div className="w-32 h-32 shrink-0 rounded-full overflow-hidden border-4 border-primary/20">
-                  <img src={testimonial.img} alt={testimonial.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                </div>
-                <div>
-                  <div className="flex text-primary mb-3">
-                    {[1, 2, 3, 4, 5].map((star) => <Star key={star} size={16} fill="currentColor" />)}
-                  </div>
-                  <p className="text-gray-300 italic mb-4">"{testimonial.quote}"</p>
-                  <h4 className="text-white font-bold text-lg">{testimonial.name}</h4>
-                  <p className="text-primary font-medium text-sm uppercase tracking-wider">{testimonial.result}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Limited Time Offer Banner */}
-      <section className="py-16 bg-primary relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="text-center md:text-left">
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-2 uppercase">
-                Join Today & Get 20% Off
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+            <motion.div className="lg:col-span-4" {...fadeIn}>
+              <h2 className="text-6xl font-display font-bold text-white mb-8 uppercase leading-[0.85] tracking-tighter">
+                The <br />
+                <span className="serif-italic text-primary lowercase tracking-normal">proof</span>
               </h2>
-              <p className="text-white/90 text-lg md:text-xl font-medium">
-                Plus a free 1-on-1 personal training session. Offer ends soon!
+              <p className="text-gray-500 text-xl font-light mb-12 leading-relaxed">
+                Real transformations from our dedicated community members.
               </p>
-            </div>
-            <div className="shrink-0">
-              <Link
-                to="/pricing"
-                className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-md font-display font-bold uppercase tracking-wider text-lg transition-all transform hover:scale-105 active:scale-95 inline-block shadow-xl"
-              >
-                Claim Offer Now
-              </Link>
+              <div className="flex items-center gap-4">
+                <div className="flex text-primary">
+                  {[1, 2, 3, 4, 5].map((s) => <Star key={s} size={16} fill="currentColor" />)}
+                </div>
+                <span className="text-white font-bold text-xs tracking-ultra uppercase">4.9/5 Rating</span>
+              </div>
+            </motion.div>
+
+            <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
+              {[
+                { name: "Sarah M.", result: "Lost 25 lbs", quote: "The trainers here pushed me past my limits. I've never felt stronger or more confident.", img: "https://images.unsplash.com/photo-1609899517235-c32e1f446182?q=80&w=1974&auto=format&fit=crop" },
+                { name: "David K.", result: "Gained 15 lbs", quote: "The equipment is top-notch and the community is supportive. Best gym I've ever joined.", img: "https://images.unsplash.com/photo-1567598508481-65985588e295?q=80&w=2070&auto=format&fit=crop" }
+              ].map((testimonial, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: i * 0.2 }}
+                  className="bg-dark p-12 group hover:bg-dark-card transition-colors"
+                >
+                  <div className="flex items-center gap-6 mb-10">
+                    <div className="relative">
+                      <img src={testimonial.img} alt={testimonial.name} className="w-20 h-20 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
+                      <div className="absolute -bottom-2 -right-2 bg-primary p-1.5 rounded-full">
+                        <Star size={12} fill="white" className="text-white" />
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold uppercase tracking-widest text-lg">{testimonial.name}</h4>
+                      <p className="text-primary text-xs font-bold uppercase tracking-ultra">{testimonial.result}</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-400 font-light italic text-lg leading-relaxed">"{testimonial.quote}"</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-32 bg-dark relative text-center">
-        <div className="container mx-auto px-4 md:px-6">
-          <motion.div className="max-w-3xl mx-auto" {...fadeIn}>
-            <h2 className="text-5xl md:text-7xl font-display font-bold text-white mb-8 uppercase leading-tight">
-              Ready to start your <br />
-              <span className="text-primary">transformation?</span>
+      {/* Final CTA - Dramatic */}
+      <section className="py-48 bg-dark relative text-center overflow-hidden grid-lines">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/10 rounded-full blur-[160px] opacity-40"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <motion.div className="max-w-4xl mx-auto" {...fadeIn}>
+            <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-12 block">Your Journey Starts Now</span>
+            <h2 className="text-7xl md:text-[12rem] font-display font-bold text-white mb-16 uppercase leading-[0.8] tracking-tighter">
+              READY FOR <br />
+              <span className="serif-italic text-primary lowercase tracking-normal">change?</span>
             </h2>
-            <p className="text-xl text-gray-400 mb-10">
-              Stop waiting for tomorrow. Your fitness journey begins today. Book your free trial and experience the 365Fitness difference.
-            </p>
             <Link
               to="/contact"
-              className="bg-primary hover:bg-primary-hover text-white px-10 py-5 rounded-md font-display font-bold uppercase tracking-widest text-xl transition-all transform hover:scale-105 active:scale-95 inline-flex items-center gap-3 shadow-[0_0_30px_rgba(230,57,70,0.5)]"
+              className="bg-primary hover:bg-primary-hover text-white px-16 py-8 rounded-sm font-display font-bold uppercase tracking-ultra text-xs transition-all transform hover:scale-105 active:scale-95 inline-flex items-center gap-6 shadow-[0_30px_60px_rgba(230,57,70,0.3)] group"
             >
-              Book Your Free Trial <ArrowRight size={24} />
+              Book Your Free Trial 
+              <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
             </Link>
           </motion.div>
         </div>
@@ -264,3 +301,4 @@ export default function Home() {
     </div>
   );
 }
+

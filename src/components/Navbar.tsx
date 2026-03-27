@@ -39,32 +39,36 @@ export default function Navbar() {
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="bg-primary text-white p-1.5 rounded-md transform group-hover:rotate-12 transition-transform">
-            <Dumbbell size={24} />
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="bg-primary text-white p-2 rounded-sm transform group-hover:rotate-12 transition-transform duration-500">
+            <Dumbbell size={20} />
           </div>
-          <span className="text-2xl font-display font-bold tracking-wider text-white">
+          <span className="text-xl font-display font-bold tracking-ultra text-white uppercase">
             365<span className="text-primary">FITNESS</span>
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-12">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               to={link.path}
               className={cn(
-                'text-sm font-medium uppercase tracking-wider transition-colors hover:text-primary',
-                location.pathname === link.path ? 'text-primary' : 'text-gray-300'
+                'text-[10px] font-bold uppercase tracking-ultra transition-all hover:text-primary relative group',
+                location.pathname === link.path ? 'text-primary' : 'text-gray-400'
               )}
             >
               {link.name}
+              <span className={cn(
+                "absolute -bottom-1 left-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full",
+                location.pathname === link.path ? "w-full" : ""
+              )}></span>
             </Link>
           ))}
           <Link
             to="/contact"
-            className="bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-md font-display uppercase tracking-wider text-sm transition-all transform hover:scale-105 active:scale-95"
+            className="bg-primary hover:bg-primary-hover text-white px-8 py-3 rounded-sm font-display font-bold uppercase tracking-ultra text-[10px] transition-all transform hover:translate-y-[-2px] active:translate-y-0 shadow-[0_10px_20px_rgba(230,57,70,0.2)]"
           >
             Free Trial
           </Link>
