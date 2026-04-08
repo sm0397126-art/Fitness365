@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle2, Star, Clock, Trophy, Users, Dumbbell } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 import Background3D from '../components/Background3D';
 
 const fadeIn = {
@@ -195,33 +200,52 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              { title: "Weight Loss", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop", num: "01" },
-              { title: "Muscle Gain", image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop", num: "02" },
-              { title: "Personal Training", image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop", num: "03" }
-            ].map((program, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: i * 0.2 }}
-                className="group cursor-pointer"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden mb-8 grayscale hover:grayscale-0 transition-all duration-700">
-                  <img src={program.image} alt={program.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" referrerPolicy="no-referrer" />
-                  <div className="absolute top-6 left-6 text-white font-display font-bold text-4xl opacity-20 group-hover:opacity-100 transition-opacity">{program.num}</div>
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity mix-blend-overlay"></div>
-                </div>
-                <h3 className="text-3xl font-display font-bold text-white mb-2 uppercase tracking-tighter flex items-center justify-between">
-                  {program.title}
-                  <ArrowRight size={24} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
-                </h3>
-                <div className="h-[1px] w-full bg-white/10 group-hover:bg-primary transition-colors"></div>
-              </motion.div>
-            ))}
-          </div>
+          <motion.div className="w-full" {...fadeIn}>
+            <Swiper
+              effect={'coverflow'}
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={'auto'}
+              coverflowEffect={{
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+              }}
+              pagination={{ clickable: true }}
+              modules={[EffectCoverflow, Pagination, Autoplay]}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              className="w-full py-12"
+            >
+              {[
+                { title: "Weight Loss", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop", num: "01" },
+                { title: "Muscle Gain", image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop", num: "02" },
+                { title: "Personal Training", image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop", num: "03" },
+                { title: "HIIT Cardio", image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069&auto=format&fit=crop", num: "04" },
+                { title: "Powerlifting", image: "https://images.unsplash.com/photo-1526506114642-5445539d7399?q=80&w=2070&auto=format&fit=crop", num: "05" }
+              ].map((program, i) => (
+                <SwiperSlide key={i} className="max-w-[300px] md:max-w-[400px]">
+                  {({ isActive }) => (
+                    <div className="group cursor-pointer">
+                      <div className={`relative aspect-[3/4] overflow-hidden mb-8 transition-all duration-700 ${isActive ? 'grayscale-0 shadow-[0_20px_40px_rgba(230,57,70,0.2)]' : 'grayscale opacity-60'}`}>
+                        <img src={program.image} alt={program.title} className={`w-full h-full object-cover transition-transform duration-1000 ${isActive ? 'scale-105' : 'scale-100'}`} referrerPolicy="no-referrer" />
+                        <div className={`absolute top-6 left-6 text-white font-display font-bold text-4xl transition-all duration-700 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>{program.num}</div>
+                        <div className={`absolute inset-0 bg-primary/20 transition-opacity duration-700 mix-blend-overlay ${isActive ? 'opacity-100' : 'opacity-0'}`}></div>
+                      </div>
+                      <h3 className="text-3xl font-display font-bold text-white mb-2 uppercase tracking-tighter flex items-center justify-between overflow-hidden">
+                        <span className={`transition-all duration-700 delay-100 inline-block ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+                          {program.title}
+                        </span>
+                        <ArrowRight size={24} className={`transition-all duration-700 delay-200 text-primary ${isActive ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`} />
+                      </h3>
+                      <div className={`h-[1px] transition-all duration-1000 ease-out ${isActive ? 'w-full bg-primary' : 'w-0 bg-white/10'}`}></div>
+                    </div>
+                  )}
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </motion.div>
         </div>
       </section>
 
