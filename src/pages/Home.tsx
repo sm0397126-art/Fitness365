@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, CheckCircle2, Star, Clock, Trophy, Users, Dumbbell } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
@@ -16,22 +16,32 @@ const fadeIn = {
 };
 
 export default function Home() {
+  const { scrollYProgress } = useScroll();
+  
+  // Parallax effects
+  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const y3D = useTransform(scrollYProgress, [0, 1], ["0%", "80%"]);
+  const xMarquee = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]);
+  const yPhilosophy = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20">
-        <div className="absolute inset-0 z-0">
+      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <motion.div style={{ y: yBg }} className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop"
             alt="Gym interior with athletes working out"
-            className="w-full h-full object-cover opacity-10 grayscale"
+            className="w-full h-[120%] object-cover opacity-10 grayscale"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/90 to-transparent"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]"></div>
-        </div>
+        </motion.div>
         
-        <Background3D />
+        <motion.div style={{ y: y3D }} className="absolute inset-0 z-0">
+          <Background3D />
+        </motion.div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-4xl">
@@ -121,21 +131,21 @@ export default function Home() {
 
       {/* Marquee Section */}
       <div className="py-12 bg-darker overflow-hidden border-y border-white/5">
-        <div className="flex whitespace-nowrap animate-marquee">
+        <motion.div style={{ x: xMarquee }} className="flex whitespace-nowrap">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
             <div key={i} className="flex items-center gap-12 px-6">
               <span className="text-8xl md:text-[10rem] font-display font-bold text-white/5 uppercase tracking-tighter">365FITNESS</span>
               <div className="w-4 h-4 rounded-full bg-primary"></div>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Why Choose Us - Refined with Grid */}
-      <section className="py-32 bg-dark relative grid-lines">
+      <section className="py-32 bg-dark relative grid-lines overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-            <motion.div className="lg:col-span-5" {...fadeIn}>
+            <motion.div style={{ y: yPhilosophy }} className="lg:col-span-5" {...fadeIn}>
               <span className="text-primary font-bold text-xs uppercase tracking-ultra mb-4 block">Our Philosophy</span>
               <h2 className="text-6xl md:text-8xl font-display font-bold text-white mb-8 uppercase leading-[0.85] tracking-tighter">
                 Beyond <br />
